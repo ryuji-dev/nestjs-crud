@@ -4,10 +4,12 @@ import { AppService } from '@root/app.service';
 import { ConfigModule } from '@nestjs/config';
 import { getTypeOrmModule } from '@root/entities/config/TypeOrmModule';
 import { EntityModule } from '@root/entities/config/EntityModule';
+import { AuthApiModule } from '@root/auth/auth.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    AuthApiModule,
     getTypeOrmModule(), // TypeORM 모듈을 주입
     EntityModule,
   ],
