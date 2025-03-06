@@ -1,15 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsString, IsStrongPassword } from 'class-validator';
+import { IsEmail, IsStrongPassword } from 'class-validator';
 
-export class RegisterDto {
-  @ApiProperty({
-    description: '이름',
-    example: 'test',
-    required: true,
-  })
-  @IsString()
-  name: string;
-
+export class LoginDto {
   @ApiProperty({
     description: '이메일',
     example: 'test@test.com',
@@ -18,7 +10,11 @@ export class RegisterDto {
   @IsEmail()
   email: string;
 
-  // IsStrongPassword를 사용해 비밀번호 검증
+  @ApiProperty({
+    description: '비밀번호',
+    example: 'test1234',
+    required: true,
+  })
   @IsStrongPassword({
     minLength: 8, // 최소 길이
     minLowercase: 1, // 최소 소문자
@@ -28,5 +24,3 @@ export class RegisterDto {
   })
   password: string;
 }
-
-// 알 수 없는 밑줄이 생기면 restart eslint server로 해결하기
