@@ -4,7 +4,7 @@ import { AppService } from '@root/app.service';
 import { ConfigModule } from '@nestjs/config';
 import { getTypeOrmModule } from '@root/entities/config/TypeOrmModule';
 import { EntityModule } from '@root/entities/config/EntityModule';
-import { AuthApiModule } from '@root/auth/auth.module';
+import { AuthApiModule } from '@root/auth/src/auth.module';
 
 @Module({
   imports: [
