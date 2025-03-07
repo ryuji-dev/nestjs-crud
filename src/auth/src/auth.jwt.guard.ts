@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { JwtPayload } from '@root/types/jwt';
+import { JwtPayload } from './auth.jwt.decorator';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
@@ -21,10 +21,11 @@ export class JwtAuthGuard implements CanActivate {
     }
 
     try {
+      // 토큰을 검증하여 유효하면 요청을 통과시킴
       const payload: JwtPayload = this.jwtService.verify(token, {
         secret: process.env.JWT_SECRET,
       });
-      request.user = payload;
+      request.user = payload; // 사용자 정보 저장
     } catch (e) {
       console.error(e);
       throw new UnauthorizedException('유효하지 않은 토큰입니다.');

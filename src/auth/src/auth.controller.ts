@@ -10,7 +10,8 @@ import { RegisterSuccess } from '@root/auth/src/docs/RegisterDocs';
 import { RegisterDto } from '@root/auth/src/dto/register.dto';
 import { LoginSuccess } from '@root/auth/src/docs/LoginDocs';
 import { LoginDto } from '@root/auth/src/dto/login.dto';
-import { JwtAuthGuard } from './auth.jwt.guard';
+import { JwtAuthGuard } from '@root/auth/src/auth.jwt.guard';
+import { JwtPayload, User } from '@root/auth/src/auth.jwt.decorator';
 
 @Controller('auth')
 export class AuthApiController {
@@ -41,7 +42,7 @@ export class AuthApiController {
   @ApiBearerAuth()
   @Get('test')
   @UseGuards(JwtAuthGuard)
-  test() {
-    return 'test';
+  test(@User() userDto: JwtPayload) {
+    return userDto;
   }
 }
