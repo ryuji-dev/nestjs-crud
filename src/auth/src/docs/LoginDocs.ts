@@ -16,7 +16,7 @@ export class LoginSuccess {
     title: '성공 응답 값',
     description: '로그인 성공 시 얻은 accessToken',
     example:
-      'eyJhbGciO¡JIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRLc3RAdGVzdC5jb20iLCJpZCI6MSwiaWF0IjoxNzIЗMDE5NzEЗLCJLeHA¡0jEЗMjcwMj',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
   })
   accessToken: string;
 }

@@ -1,10 +1,16 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AuthApiService } from '@root/auth/src/auth.service';
 import { RegisterSuccess } from '@root/auth/src/docs/RegisterDocs';
 import { RegisterDto } from '@root/auth/src/dto/register.dto';
 import { LoginSuccess } from '@root/auth/src/docs/LoginDocs';
 import { LoginDto } from '@root/auth/src/dto/login.dto';
+import { JwtAuthGuard } from './auth.jwt.guard';
 
 @Controller('auth')
 export class AuthApiController {
@@ -30,5 +36,12 @@ export class AuthApiController {
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     return await this.authApiService.login(loginDto);
+  }
+
+  @ApiBearerAuth()
+  @Get('test')
+  @UseGuards(JwtAuthGuard)
+  test() {
+    return 'test';
   }
 }
