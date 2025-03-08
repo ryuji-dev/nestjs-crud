@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put } from '@nestjs/common';
 import {
   ApiCreatedResponse,
   ApiOperation,
@@ -12,6 +12,8 @@ import {
   CreatePostSuccess,
 } from '@root/post/src/docs/CreatePostDocs';
 import { PostApiService } from '@root/post/src/post.service';
+import { UpdatePostDto } from './dto/update-post.dto';
+import { UpdatePostParamDto } from './dto/update-post-param.dto';
 
 @Controller('post')
 export class PostApiController {
@@ -33,5 +35,18 @@ export class PostApiController {
   @Post()
   async create(@Body() createPostDto: CreatePostDto, @User() user: JwtPayload) {
     return await this.postApiService.create(createPostDto, user);
+  }
+
+  @Put('/:postId')
+  async update(
+    @Body() updatePostDto: UpdatePostDto,
+    @Param() updatePostParamDto: UpdatePostParamDto,
+    @User() user: JwtPayload,
+  ) {
+    return await this.postApiService.update(
+      updatePostDto,
+      updatePostParamDto.postId,
+      user,
+    );
   }
 }

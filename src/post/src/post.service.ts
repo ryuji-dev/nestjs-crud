@@ -1,10 +1,15 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Post } from '@root/entities/Post.entity';
 import { User } from '@root/entities/User.entity';
 import { Repository } from 'typeorm';
 import { CreatePostDto } from '@root/post/src/dto/create-post.dto';
 import { JwtPayload } from '@root/auth/src/auth.jwt.decorator';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Injectable()
 export class PostApiService {
@@ -36,5 +41,32 @@ export class PostApiService {
     return {
       message: '게시글 생성 성공',
     };
+  }
+
+  async update(dto: UpdatePostDto, postId: number, user: JwtPayload) {
+    const { title, content } = dto;
+    const findUser = await this.userRepository.findOne({
+      where: { id: user.id.toString() },
+    });
+
+    if (!findUser) {
+      throw new UnauthorizedException('유효하지 않은 사용자입니다.');
+    }
+
+    const post = await this.postRepository.findOne({
+      where: { id: postId.toString(), user: { id: findUser.id } },
+    });
+
+    if (!post) {
+      throw new NotFoundException(
+        '해당 사용자가 작성한 게시글을 찾을 수 없습니다.',
+      );
+    }
+    post.title = title;
+    post.content = content;
+
+    const updatedPost = await this.postRepository.save(post);
+
+    return { message: '게시글 수정 성공', updatedPost };
   }
 }
