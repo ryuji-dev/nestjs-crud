@@ -1,4 +1,13 @@
-import { Body, Controller, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import {
   ApiCreatedResponse,
   ApiOperation,
@@ -14,6 +23,7 @@ import {
 import { PostApiService } from '@root/post/src/post.service';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { UpdatePostParamDto } from './dto/update-post-param.dto';
+import { DeletePostParamDto } from './dto/delete-post-param.dto';
 
 @Controller('post')
 export class PostApiController {
@@ -48,5 +58,21 @@ export class PostApiController {
       updatePostParamDto.postId,
       user,
     );
+  }
+
+  @Delete('/:postId')
+  async delete(
+    @Param() deletePostParamDto: DeletePostParamDto,
+    @User() user: JwtPayload,
+  ) {
+    return await this.postApiService.softDelete(
+      deletePostParamDto.postId,
+      user,
+    );
+  }
+
+  @Get()
+  async find(@Query() findPostQueryDto: FindPostQueryDto) {
+    return await this.postApiService.findAllPosts(findPostQueryDto.limit);
   }
 }
