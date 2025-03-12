@@ -24,6 +24,8 @@ import { PostApiService } from '@root/post/src/post.service';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { UpdatePostParamDto } from './dto/update-post-param.dto';
 import { DeletePostParamDto } from './dto/delete-post-param.dto';
+import { FindPostQueryDto } from './dto/find-post-query-dto';
+import { FindOnePostParamDto } from './dto/findone-post-param.dto';
 
 @Controller('post')
 export class PostApiController {
@@ -74,5 +76,10 @@ export class PostApiController {
   @Get()
   async find(@Query() findPostQueryDto: FindPostQueryDto) {
     return await this.postApiService.findAllPosts(findPostQueryDto.limit);
+  }
+
+  @Get('/:postId')
+  async findOne(@Param() findOnePostParamDto: FindOnePostParamDto) {
+    return await this.postApiService.findPostById(findOnePostParamDto.postId);
   }
 }

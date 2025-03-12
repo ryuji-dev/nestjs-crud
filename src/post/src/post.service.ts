@@ -107,4 +107,21 @@ export class PostApiService {
       total, // 총 게시글 수
     };
   }
+
+  // 게시글 상세 조회 서비스 로직
+  async findPostById(postId: number) {
+    const post = await this.postRepository.findOne({
+      where: {
+        id: postId.toString(),
+        deleteAt: IsNull(),
+      },
+      relations: ['user'],
+    });
+
+    if (!post) {
+      throw new NotFoundException('존재하지 않는 게시글입니다.');
+    }
+
+    return post;
+  }
 }
